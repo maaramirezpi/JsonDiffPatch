@@ -9,6 +9,7 @@
     <PackageTags>JSON, Diff, Patch, RFC, 6902</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageVersion>1.0.0</PackageVersion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -162,11 +163,34 @@ namespace JsonDiffPatch
 
             if (commonHead == 0 && commonTail == 0 && len2 > 0 && len1 > 0)
             {
-                yield return new ReplaceOperation()
+                var minCommonLength = Math.Min(array1.Length, array2.Length);
+                for (int i = 0; i < minCommonLength ; i++)
                 {
-                    Path = new JsonPointer(path),
-                    Value = new JArray(array2)
-                };
+                    foreach (var operation in CalculatePatch(array1[i], array2[i],
+                        useIdPropertyToDetermineEquality, $"{path}/{commonHead + i}"))
+                    {
+                        yield return operation;
+                    }
+                }
+
+                var leftLeftovers = array1.Skip(minCommonLength).ToArray();
+                var rightLeftovers = array2.Skip(minCommonLength).ToArray();
+                foreach (var jToken in leftLeftovers)
+                {
+                    yield return new RemoveOperation()
+                    {
+                        Path = new JsonPointer($"{path}/{commonHead+minCommonLength}")
+                    };
+                }
+                
+                for (int i = 0; i < rightLeftovers.Length; i++)
+                {
+                    yield return new AddOperation()
+                    {
+                        Value = rightLeftovers[i],
+                        Path = new JsonPointer($"{path}/{commonHead + i+minCommonLength}")
+                    };
+                }
                 yield break;
             }
 
