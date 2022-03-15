@@ -22,6 +22,8 @@
     <EmbeddedResource Include="Samples\scene2b.json" />
     <EmbeddedResource Include="Samples\scene3a.json" />
     <EmbeddedResource Include="Samples\scene3b.json" />
+    <EmbeddedResource Include="Samples\scene4a.json" />
+    <EmbeddedResource Include="Samples\scene4b.json" />
   </ItemGroup>
 
   <ItemGroup>
